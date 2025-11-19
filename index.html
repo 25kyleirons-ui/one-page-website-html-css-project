@@ -1,248 +1,317 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>My Website</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Women and Equality in Workspaces</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#ff80b5;
+  --accent-dark:#e05a93;
+  --bg:#fff7fb;
+  --card:#fff;
+  --text:#333;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:"Nunito",sans-serif;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ---------- Popup ---------- */
+#popup {
+  position:fixed; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  background: radial-gradient(circle at 10% 10%, #ffd6e6 0%, rgba(255,255,255,0.9) 45%);
+  z-index:9999; padding:2rem;
+  transition:opacity .6s ease, visibility .6s ease;
+  pointer-events: all;
+}
+#popup.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+#popup .content{
+  background:#fff; padding:2rem; border-radius:22px; max-width:640px; width:100%;
+  box-shadow:0 20px 40px rgba(0,0,0,.12); text-align:center;
+  position:relative; z-index:10000;
+}
+#popup h2{color:var(--accent-dark); margin-bottom:.75rem;}
+#popup p{margin-bottom:1.25rem; line-height:1.45; color:#444;}
+#enterBtn{
+  background:var(--accent); color:#fff; border:0; padding:.85rem 1.6rem;
+  border-radius:28px; font-weight:700; cursor:pointer; transition:transform .18s ease,background .18s;
+}
+#enterBtn:hover{transform:scale(1.04); background:var(--accent-dark);}
+
+/* ---------- Bubbles/Hearts/Stars ---------- */
+.bubble, .heart, .star{position:absolute; pointer-events:none; opacity:.7; mix-blend-mode:screen;}
+.bubble{border-radius:50%;}
+.heart{background: rgba(255,100,150,0.5); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;}
+.star{background: rgba(255,255,100,0.5);
+  clip-path: polygon(50% 0%, 61% 38%, 100% 38%, 69% 59%, 80% 100%, 50% 75%, 20% 100%, 31% 59%, 0% 38%, 39% 38%);
+}
+@keyframes floatY {0%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(.98)}100%{transform:translateY(0) scale(1)}}
+
+/* ---------- Header ---------- */
+header {
+  position: relative;
+  padding: 5rem 1rem 4rem;
+  text-align: center;
+  color: #fff;
+  background: radial-gradient(circle at 10% 10%, #ffb6d5 0%, #ff80b5 55%);
+  overflow: hidden;
+  animation: gradientShift 12s ease-in-out infinite alternate;
+}
+@keyframes gradientShift {0% { background-position: 0% 50%; }50% { background-position: 100% 50%; }100% { background-position: 0% 50%; }}
+header .hero-inner{position:relative; z-index:3;}
+header h1 { font-size:2.8rem; margin:0.1rem 0 .5rem; text-shadow:0 6px 18px rgba(0,0,0,.12),0 0 8px rgba(255,255,255,.3); animation: bounceText 4s ease-in-out infinite;}
+@keyframes bounceText {0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+header p{max-width:780px;margin:0 auto 1rem;font-size:1.05rem;}
+header .meta-row{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;justify-content:center;margin-top:1rem; z-index:3;}
+.kindness { background:rgba(255,255,255,0.15); padding:.45rem .9rem; border-radius:999px; font-weight:700; color:#fff; backdrop-filter: blur(3px);}
+.quote-box{ background:rgba(255,255,255,0.12); padding:.5rem 1rem; border-radius:999px; color:#fff; font-size:.95rem;}
+.quote-btn{ background:rgba(255,255,255,0.12); border:0; padding:.45rem .7rem; border-radius:999px; color:#fff; font-weight:700; cursor:pointer;}
+
+/* ---------- Navigation ---------- */
+nav{background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.06); position:sticky; top:0; z-index:50; padding:.85rem; text-align:center;}
+nav a{ color:var(--accent-dark); text-decoration:none; margin:0 .6rem; font-weight:700; padding:.35rem .6rem; border-radius:20px; }
+nav a:hover{ background:var(--accent); color:#fff; }
+
+/* ---------- Main Sections ---------- */
+main{ padding:2rem 1rem 4rem; }
+section{ max-width:980px; margin:2.6rem auto; padding:2rem; background:var(--card); border-radius:18px; box-shadow:0 8px 20px rgba(0,0,0,.04); position:relative; overflow:hidden; }
+h2{color:var(--accent-dark); margin-top:0;}
+p,li{line-height:1.6;}
+ul{padding-left:1.1rem;}
+.button{display:inline-block; background:var(--accent); color:#fff; padding:.8rem 1.4rem; border-radius:28px; text-decoration:none; font-weight:700;}
+
+/* ---------- Comment Box ---------- */
+.comment-container { position:relative; z-index:99999; }
+#HCB_comment_box {
+  background:#fff7fb !important;
+  border-radius:16px !important;
+  box-shadow:0 6px 18px rgba(0,0,0,.06) !important;
+  padding:1rem !important;
+}
+#HCB_comment_box textarea { border-radius:10px !important; border:2px solid #ff80b5 !important; }
+#HCB_comment_box input[type=submit] { background:#ff80b5 !important; color:#fff !important; border-radius:20px !important; border:none !important; padding:.45rem .9rem; }
+
+footer{margin-top:3rem;text-align:center;background:var(--accent);color:#fff;padding:1.25rem 1rem;border-radius:12px;margin-bottom:2rem;}
+
+@media(max-width:640px){header h1{font-size:1.9rem} .meta-row{flex-direction:column} section{margin:1.4rem 1rem}}
+
+.reveal{animation:revealFade .6s ease both}
+@keyframes revealFade { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+</style>
 </head>
-
 <body>
-  <!-- Header -->
-  <section id="header">
-    <div class="header container">
-      <div class="nav-bar">
-        <div class="brand">
-          <a href="#hero">
-            <h1><span>S</span>haif <span>A</span>rfan</h1>
-          </a>
-        </div>
-        <div class="nav-list">
-          <div class="hamburger">
-            <div class="bar"></div>
-          </div>
-          <ul>
-            <li><a href="#hero" data-after="Home">Home</a></li>
-            <li><a href="#services" data-after="Service">Services</a></li>
-            <li><a href="#projects" data-after="Projects">Projects</a></li>
-            <li><a href="#about" data-after="About">About</a></li>
-            <li><a href="#contact" data-after="Contact">Contact</a></li>
-          </ul>
-        </div>
-      </div>
+
+<!-- ---------- Popup ---------- -->
+<div id="popup" aria-modal="true" role="dialog">
+  <div class="content">
+    <h2>Important Notice</h2>
+    <p>This website was created to help people who are struggling or know people who are struggling. Please note: if this website is misused (the comment section), it will be removed. Don’t be the person to take help away from people who need it.</p>
+    <button id="enterBtn">Enter Website</button>
+  </div>
+</div>
+
+<!-- ---------- Header ---------- -->
+<header>
+  <div class="hero-inner">
+    <h1>Women and Equality in Workspaces</h1>
+    <p>Building kind, fair, and empowering places for women to grow, lead, and shine.</p>
+    <div class="meta-row">
+      <div class="kindness" id="kindnessDisplay">🌍 Loading voices...</div>
+      <div class="quote-box" id="quoteBox">Loading inspirational quote...</div>
+      <button class="quote-btn" id="newQuoteBtn">New quote</button>
     </div>
-  </section>
-  <!-- End Header -->
+  </div>
+</header>
 
+<!-- ---------- Navigation ---------- -->
+<nav>
+  <a href="#about">About</a>
+  <a href="#issues">Challenges</a>
+  <a href="#help">How to Help</a>
+  <a href="#stats">Statistics</a>
+  <a href="#resources">Resources</a>
+  <a href="#stories">Share Your Story</a>
+</nav>
 
-  <!-- Hero Section  -->
-  <section id="hero">
-    <div class="hero container">
-      <div>
-        <h1>Hello, <span></span></h1>
-        <h1>My Name is <span></span></h1>
-        <h1>Arfan <span></span></h1>
-        <a href="#projects" type="button" class="cta">Portfolio</a>
-      </div>
-    </div>
-  </section>
-  <!-- End Hero Section  -->
-
-  <!-- Service Section -->
-  <section id="services">
-    <div class="services container">
-      <div class="service-top">
-        <h1 class="section-title">Serv<span>i</span>ces</h1>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum deleniti maiores pariatur assumenda quas
-          magni et, doloribus quod voluptate quasi molestiae magnam officiis dolorum, dolor provident atque molestias
-          voluptatum explicabo!</p>
-      </div>
-      <div class="service-bottom">
-        <div class="service-item">
-          <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/services.png" /></div>
-          <h2>Web Design</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis debitis rerum, magni voluptatem sed
-            architecto placeat beatae tenetur officia quod</p>
-        </div>
-        <div class="service-item">
-          <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/services.png" /></div>
-          <h2>Web Design</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis debitis rerum, magni voluptatem sed
-            architecto placeat beatae tenetur officia quod</p>
-        </div>
-        <div class="service-item">
-          <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/services.png" /></div>
-          <h2>Web Design</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis debitis rerum, magni voluptatem sed
-            architecto placeat beatae tenetur officia quod</p>
-        </div>
-        <div class="service-item">
-          <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/services.png" /></div>
-          <h2>Web Design</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis debitis rerum, magni voluptatem sed
-            architecto placeat beatae tenetur officia quod</p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End Service Section -->
-
-  <!-- Projects Section -->
-  <section id="projects">
-    <div class="projects container">
-      <div class="projects-header">
-        <h1 class="section-title">Recent <span>Projects</span></h1>
-      </div>
-      <div class="all-projects">
-        <div class="project-item">
-          <div class="project-info">
-            <h1>Project 1</h1>
-            <h2>Coding is Love</h2>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum impedit unde
-              rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo neque atque libero non sunt
-              harum? Ipsum repellat animi, fugit architecto voluptatum odit et!</p>
-          </div>
-          <div class="project-img">
-            <img src="./img/img-1.png" alt="img">
-          </div>
-        </div>
-        <div class="project-item">
-          <div class="project-info">
-            <h1>Project 2</h1>
-            <h2>Coding is Love</h2>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum impedit unde
-              rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo neque atque libero non sunt
-              harum? Ipsum repellat animi, fugit architecto voluptatum odit et!</p>
-          </div>
-          <div class="project-img">
-            <img src="./img/img-1.png" alt="img">
-          </div>
-        </div>
-        <div class="project-item">
-          <div class="project-info">
-            <h1>Project 3</h1>
-            <h2>Coding is Love</h2>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum impedit unde
-              rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo neque atque libero non sunt
-              harum? Ipsum repellat animi, fugit architecto voluptatum odit et!</p>
-          </div>
-          <div class="project-img">
-            <img src="./img/img-1.png" alt="img">
-          </div>
-        </div>
-        <div class="project-item">
-          <div class="project-info">
-            <h1>Project 4</h1>
-            <h2>Coding is Love</h2>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum impedit unde
-              rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo neque atque libero non sunt
-              harum? Ipsum repellat animi, fugit architecto voluptatum odit et!</p>
-          </div>
-          <div class="project-img">
-            <img src="./img/img-1.png" alt="img">
-          </div>
-        </div>
-        <div class="project-item">
-          <div class="project-info">
-            <h1>Project 5</h1>
-            <h2>Coding is Love</h2>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad, iusto cupiditate voluptatum impedit unde
-              rem ipsa distinctio illum quae mollitia ut, accusantium eius odio ducimus illo neque atque libero non sunt
-              harum? Ipsum repellat animi, fugit architecto voluptatum odit et!</p>
-          </div>
-          <div class="project-img">
-            <img src="./img/img-1.png" alt="img">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End Projects Section -->
-
-  <!-- About Section -->
+<!-- ---------- Main ---------- -->
+<main>
   <section id="about">
-    <div class="about container">
-      <div class="col-left">
-        <div class="about-img">
-          <img src="./img/img-2.png" alt="img">
-        </div>
-      </div>
-      <div class="col-right">
-        <h1 class="section-title">About <span>me</span></h1>
-        <h2>Front End Developer</h2>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Asperiores, velit alias eius non illum beatae atque
-          repellat ratione qui veritatis repudiandae adipisci maiores. At inventore necessitatibus deserunt
-          exercitationem cumque earum omnis ipsum rem accusantium quis, quas quia, accusamus provident suscipit magni!
-          Expedita sint ad dolore, commodi labore nihil velit earum ducimus nulla quae nostrum fugit aut, deserunt
-          reprehenderit libero enim!</p>
-        <a href="#" class="cta">Download Resume</a>
-      </div>
-    </div>
+    <h2>About Workplace Equality</h2>
+    <p>Equality in the workplace means ensuring women have the same opportunities, pay, and respect as men. True equality creates innovation, confidence, and harmony within every team.</p>
   </section>
-  <!-- End About Section -->
 
-  <!-- Contact Section -->
-  <section id="contact">
-    <div class="contact container">
-      <div>
-        <h1 class="section-title">Contact <span>info</span></h1>
-      </div>
-      <div class="contact-items">
-        <div class="contact-item">
-          <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/phone.png" /></div>
-          <div class="contact-info">
-            <h1>Phone</h1>
-            <h2>+1 234 123 1234</h2>
-            <h2>+1 234 123 1234</h2>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/new-post.png" /></div>
-          <div class="contact-info">
-            <h1>Email</h1>
-            <h2>info@gmail.com</h2>
-            <h2>abcd@gmail.com</h2>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/map-marker.png" /></div>
-          <div class="contact-info">
-            <h1>Address</h1>
-            <h2>Fatikchhari, Chittagong, Bangladesh</h2>
-          </div>
-        </div>
-      </div>
-    </div>
+  <section id="issues">
+    <h2>Challenges Women Face</h2>
+    <ul>
+      <li>Gender pay gaps and lack of transparency.</li>
+      <li>Limited access to leadership opportunities.</li>
+      <li>Unconscious bias and microaggressions.</li>
+      <li>Work-life balance pressures and caregiving expectations.</li>
+    </ul>
   </section>
-  <!-- End Contact Section -->
 
-  <!-- Footer -->
-  <section id="footer">
-    <div class="footer container">
-      <div class="brand">
-        <h1><span>S</span>haif <span>A</span>rfan</h1>
-      </div>
-      <h2>Your Complete Web Solution</h2>
-      <div class="social-icon">
-        <div class="social-item">
-          <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/facebook-new.png" /></a>
-        </div>
-        <div class="social-item">
-          <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/instagram-new.png" /></a>
-        </div>
-        <div class="social-item">
-          <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/twitter.png" /></a>
-        </div>
-        <div class="social-item">
-          <a href="#"><img src="https://img.icons8.com/bubbles/100/000000/behance.png" /></a>
-        </div>
-      </div>
-      <p>Copyright © 2020 Arfan. All rights reserved</p>
-    </div>
+  <section id="help">
+    <h2>How You Can Help</h2>
+    <ul>
+      <li>Support fair pay and promotion transparency.</li>
+      <li>Encourage mentorship and leadership for women.</li>
+      <li>Promote inclusive team cultures and zero-tolerance for bias.</li>
+    </ul>
+    <a class="button" href="#">Join the Movement</a>
   </section>
-  <!-- End Footer -->
-  <script src="./app.js"></script>
+
+  <section id="stats">
+    <h2>Key Statistics</h2>
+    <p>Add your facts here — for example: Women make up 47% of the workforce globally, but only 29% of senior leadership roles. Equal representation boosts company performance by up to 20%.</p>
+  </section>
+
+  <section id="resources">
+    <h2>Resources</h2>
+    <ul>
+      <li><a href="https://leanin.org" target="_blank">Lean In</a></li>
+      <li><a href="https://www.unwomen.org" target="_blank">UN Women</a></li>
+      <li><a href="https://catalyst.org" target="_blank">Catalyst</a></li>
+    </ul>
+  </section>
+
+  <section id="stories">
+    <h2>Share Your Experience</h2>
+    <p>Share your experiences with others — leave your name blank to stay anonymous!</p>
+
+    <div class="comment-container">
+      <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Comments</a> are loading...</div>
+    </div>
+
+    <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
+    <script type="text/javascript" id="hcb">
+      if(!window.hcb_user){hcb_user={};}
+      (function(){
+        var s=document.createElement("script"),
+        l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"),
+        h="https://www.htmlcommentbox.com";
+        s.setAttribute("type","text/javascript");
+        s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+
+        "&mod=%241%24wq1rdBcg%24V0GQDlWUS4gRjg5JAocGj0"+
+        "&opts=16798&num=10&ts="+Date.now());
+        document.getElementsByTagName("head")[0].appendChild(s);
+      })();
+    </script>
+  </section>
+</main>
+
+<footer>
+  <p>Richmond Upon Thames School, Citizenship Project</p>
+</footer>
+
+<script>
+// --------- Voices Counter ---------
+async function updateKindnessVoices() {
+  const display = document.getElementById("kindnessDisplay");
+  try {
+    const res = await fetch("https://api.countapi.xyz/hit/womeninequality/voices");
+    const data = await res.json();
+    const target = data.value;
+    let start = 0;
+    const duration = 1000;
+    const begin = performance.now();
+    function step(time){
+      const progress = Math.min(1,(time-begin)/duration);
+      const val = Math.floor(start + target*progress);
+      display.textContent = `🌍 ${val.toLocaleString()} voices`;
+      if(progress<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  } catch {
+    display.textContent = "🌍 Many voices";
+  }
+}
+
+// --------- Quotes ---------
+const quotes=[
+  "Empowered women empower the world.",
+  "Equality is not a women's issue — it’s a business and human issue.",
+  "Be the person who creates space for others to shine.",
+  "Small acts of respect build huge changes.",
+  "Your voice matters. Share it — it might help someone.",
+  "Leadership is about lifting others, not stepping over them.",
+  "When women thrive, communities thrive.",
+  "Listening is the first act of kindness in any workplace."
+];
+function showRandomQuote(){
+  const q = quotes[Math.floor(Math.random()*quotes.length)];
+  document.getElementById('quoteBox').textContent=`“${q}”`;
+}
+
+// --------- Bubbles/Hearts/Stars ---------
+function makeBubble(){
+  const b=document.createElement('div'); b.className='bubble';
+  const size=20+Math.random()*120;
+  b.style.width=b.style.height=size+'px';
+  b.style.left=Math.random()*95+'%';
+  b.style.top=Math.random()*90+'%';
+  b.style.background=`rgba(255,128,181,${0.1+Math.random()*0.2})`;
+  b.style.animation=`floatY ${8+Math.random()*10}s ease-in-out infinite`;
+  return b;
+}
+function sprinkleBubbles(){
+  document.querySelectorAll('header').forEach(sec=>{
+    for(let i=0;i<10;i++){ sec.appendChild(makeBubble()); }
+    for(let i=0;i<5;i++){
+      const h=document.createElement('div'); h.className='heart';
+      h.style.left=Math.random()*95+'%';
+      h.style.top=Math.random()*90+'%';
+      h.style.width=h.style.height=(10+Math.random()*20)+'px';
+      h.style.animationDuration=(6+Math.random()*6)+'s';
+      sec.appendChild(h);
+    }
+    for(let i=0;i<5;i++){
+      const s=document.createElement('div'); s.className='star';
+      s.style.left=Math.random()*95+'%';
+      s.style.top=Math.random()*90+'%';
+      s.style.width=s.style.height=(10+Math.random()*15)+'px';
+      s.style.animationDuration=(6+Math.random()*6)+'s';
+      sec.appendChild(s);
+    }
+  });
+  document.querySelectorAll('section').forEach(sec=>{
+    const c=document.createElement('div');
+    c.style.position='absolute'; 
+    c.style.inset='0'; 
+    c.style.zIndex='0'; 
+    c.style.overflow='hidden'; 
+    c.style.pointerEvents='none';
+    for(let i=0;i<4;i++) c.appendChild(makeBubble());
+    sec.prepend(c);
+  });
+}
+
+// --------- Popup ----------
+function closePopup(){
+  const popup=document.getElementById('popup');
+  popup.classList.add('hidden');
+  document.querySelectorAll('header, nav, main, footer').forEach((el,i)=>{
+    el.classList.add('reveal'); el.style.animationDelay=(i*80)+'ms';
+  });
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  sprinkleBubbles();
+  showRandomQuote();
+  document.getElementById('newQuoteBtn').addEventListener('click',showRandomQuote);
+  updateKindnessVoices();
+  const enter=document.getElementById('enterBtn');
+  enter.addEventListener('click',closePopup);
+  enter.addEventListener('keyup',e=>{if(e.key==='Enter') enter.click();});
+});
+</script>
+
 </body>
-
 </html>
